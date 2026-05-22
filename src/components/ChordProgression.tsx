@@ -86,12 +86,9 @@ export function ChordProgression() {
         </div>
         
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            generateRecommendations();
-          }}
-          className="w-full btn-primary flex items-center justify-center gap-2 relative z-10"
+          type="button"
+          onClick={() => generateRecommendations()}
+          className="w-full btn-primary flex items-center justify-center gap-2"
         >
           <ArrowRight className="w-4 h-4" />
           生成推荐
@@ -111,6 +108,7 @@ export function ChordProgression() {
                 <span className="text-sm font-semibold text-white/80">{progression.name}</span>
                 <div className="flex gap-2">
                   <button
+                    type="button"
                     onClick={() => playProgression(progression)}
                     className="p-2 bg-sky-500/15 hover:bg-sky-500/25 rounded-lg transition-colors"
                     title="播放"
@@ -118,6 +116,7 @@ export function ChordProgression() {
                     <Play className="w-4 h-4 text-sky-400" />
                   </button>
                   <button
+                    type="button"
                     onClick={() => selectProgression(progression)}
                     className="px-3 py-1.5 bg-white/[0.06] hover:bg-white/[0.12] rounded-lg text-xs font-medium transition-colors"
                   >
