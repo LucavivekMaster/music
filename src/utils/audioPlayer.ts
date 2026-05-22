@@ -36,14 +36,14 @@ class AudioPlayer {
     
     try {
       // 从 piano-map.json 加载采样列表
-      const response = await fetch('/samples/piano/piano-map.json');
+      const response = await fetch(`${import.meta.env.BASE_URL}samples/piano/piano-map.json`);
       const map: Array<{ midi: number; file: string }> = await response.json();
       
       const loaded: PianoSample[] = [];
       
       for (const entry of map) {
         try {
-          const wavResponse = await fetch(`/samples/piano/${entry.file}`);
+          const wavResponse = await fetch(`${import.meta.env.BASE_URL}samples/piano/${entry.file}`);
           if (!wavResponse.ok) continue;
           const arrayBuffer = await wavResponse.arrayBuffer();
           const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
