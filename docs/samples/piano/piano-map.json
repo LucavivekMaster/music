@@ -1,0 +1,30 @@
+[
+  {
+    "midi": 48,
+    "file": "MF C3.wav"
+  },
+  {
+    "midi": 50,
+    "file": "MF D3.wav"
+  },
+  {
+    "midi": 52,
+    "file": "MF E3.wav"
+  },
+  {
+    "midi": 53,
+    "file": "MF F3.wav"
+  },
+  {
+    "midi": 55,
+    "file": "MF G3.wav"
+  },
+  {
+    "midi": 57,
+    "file": "MF A3.wav"
+  },
+  {
+    "midi": 59,
+    "file": "MF B3.wav"
+  }
+]
