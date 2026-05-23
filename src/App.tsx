@@ -7,6 +7,7 @@ import { TheoryPanel } from './components/TheoryPanel';
 import { ChordProgression } from './components/ChordProgression';
 import { PianoKeyboard } from './components/PianoKeyboard';
 import { EarTraining } from './components/EarTraining';
+import { UserManual } from './components/UserManual';
 import { useMusicStore } from './store/musicStore';
 import { audioPlayer } from './utils/audioPlayer';
 import { detectChord } from './utils/musicTheory';
@@ -141,6 +142,7 @@ function App() {
       </footer>
       
       <TheoryPanel />
+      <UserManual />
     </div>
   );
 }
