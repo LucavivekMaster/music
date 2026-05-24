@@ -23,7 +23,7 @@ interface MusicStore {
   chordProgression: Array<{ root: string; type: ChordType }>;
   transposeSteps: number;
   currentOctave: number;
-  circleMode: 'chromatic' | 'circleOfFifths';
+  circleMode: 'chromatic' | 'circleOfFifths' | 'multiOctave';
   
   addNote: (note: Note) => void;
   removeNote: (note: Note) => void;
@@ -33,7 +33,7 @@ interface MusicStore {
   setChordProgression: (progression: Array<{ root: string; type: ChordType }>) => void;
   setTransposeSteps: (steps: number) => void;
   setCurrentOctave: (octave: number) => void;
-  setCircleMode: (mode: 'chromatic' | 'circleOfFifths') => void;
+  setCircleMode: (mode: 'chromatic' | 'circleOfFifths' | 'multiOctave') => void;
   transposeSelection: (delta: number) => void;
   
   saveChord: (name: string, chord: Omit<Chord, 'id' | 'name'>) => void;
