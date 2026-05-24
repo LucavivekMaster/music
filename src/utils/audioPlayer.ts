@@ -109,22 +109,18 @@ class AudioPlayer {
 
   playNote(midi: number, duration: number = 0.8): void {
     const ctx = this.getContext();
-    // 恢复因浏览器策略挂起的 AudioContext
-    if (ctx.state === 'suspended') {
-      ctx.resume();
-    }
     
-    // 确保采样已加载
-    if (!this.samplesLoaded) {
-      this.ensureSamplesLoaded().then(() => {
-        if (this.samplesLoaded) {
-          this.playSampledNote(ctx, midi, duration);
-        }
-      });
-      return;
-    }
-    
-    this.playSampledNote(ctx, midi, duration);
+    // 确保 AudioContext 已恢复（异步），然后加载采样并播放
+    const resumeAndPlay = async () => {
+      if (ctx.state === 'suspended') {
+        await ctx.resume();
+      }
+      if (!this.samplesLoaded) {
+        await this.ensureSamplesLoaded();
+      }
+      this.playSampledNote(ctx, midi, duration);
+    };
+    resumeAndPlay();
   }
 
   private playSampledNote(ctx: AudioContext, midi: number, duration: number): void {
