@@ -35,21 +35,43 @@ class AudioPlayer {
     const ctx = this.getContext();
     
     try {
-      // 从 piano-map.json 加载采样列表
       const response = await fetch(`${import.meta.env.BASE_URL}samples/piano/piano-map.json`);
       const map: Array<{ midi: number; file: string }> = await response.json();
       
-      const loaded: PianoSample[] = [];
+      // 并行下载所有 WAV 文件
+      const fetches = await Promise.all(
+        map.map(async (entry) => {
+          try {
+            const wavResponse = await fetch(`${import.meta.env.BASE_URL}samples/piano/${entry.file}`);
+            if (!wavResponse.ok) return null;
+            const arrayBuffer = await wavResponse.arrayBuffer();
+            return { midi: entry.midi, arrayBuffer };
+          } catch {
+            return null;
+          }
+        })
+      );
       
-      for (const entry of map) {
-        try {
-          const wavResponse = await fetch(`${import.meta.env.BASE_URL}samples/piano/${entry.file}`);
-          if (!wavResponse.ok) continue;
-          const arrayBuffer = await wavResponse.arrayBuffer();
-          const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
-          loaded.push({ midi: entry.midi, buffer: audioBuffer });
-        } catch {
-          // 跳过加载失败的采样
+      const valid = fetches.filter((f): f is { midi: number; arrayBuffer: ArrayBuffer } => f !== null);
+      console.log(`音频下载完成：${valid.length}/${map.length} 个文件`);
+      
+      // 分批解码（每批 3 个，避免阻塞 UI）
+      const loaded: PianoSample[] = [];
+      const BATCH = 3;
+      for (let i = 0; i < valid.length; i += BATCH) {
+        const batch = valid.slice(i, i + BATCH);
+        const decoded = await Promise.all(
+          batch.map(async ({ midi, arrayBuffer }) => {
+            try {
+              const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+              return { midi, buffer: audioBuffer };
+            } catch {
+              return null;
+            }
+          })
+        );
+        for (const d of decoded) {
+          if (d) loaded.push(d);
         }
       }
       
