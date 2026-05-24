@@ -25,7 +25,11 @@ class AudioPlayer {
   // 加载所有钢琴采样（异步，可安全重复调用）
   async ensureSamplesLoaded(): Promise<void> {
     if (this.samplesLoaded) return;
-    if (this.samplesLoading) return this.samplesLoading;
+    if (this.samplesLoading) {
+      await this.samplesLoading;
+      if (this.samplesLoaded) return;
+      // 上次加载失败了，重试
+    }
 
     this.samplesLoading = this.loadAllSamples();
     await this.samplesLoading;
@@ -105,6 +109,10 @@ class AudioPlayer {
 
   playNote(midi: number, duration: number = 0.8): void {
     const ctx = this.getContext();
+    // 恢复因浏览器策略挂起的 AudioContext
+    if (ctx.state === 'suspended') {
+      ctx.resume();
+    }
     
     // 确保采样已加载
     if (!this.samplesLoaded) {
