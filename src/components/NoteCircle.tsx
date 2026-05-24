@@ -33,17 +33,16 @@ export function NoteCircle() {
   }, [selectedNoteNames]);
   
   const toggleNote = useCallback((noteName: string) => {
-    if (isSelected(noteName)) {
-      // 从已选中音符中找到实际的那个（旋转后 MIDI 可能与 FIXED_OCTAVE 不同）
-      const actualNote = selectedNotes.find(n => n.name === noteName);
-      if (actualNote) removeNote(actualNote);
+    const note = createNote(noteName, effectiveOctave);
+    const actualExisting = selectedNotes.find(n => n.midi === note.midi);
+    if (actualExisting) {
+      removeNote(actualExisting);
     } else {
-      const note = createNote(noteName, effectiveOctave);
       addNote(note);
       setAnimatingNote(noteName);
       setTimeout(() => setAnimatingNote(null), 300);
     }
-  }, [addNote, removeNote, isSelected, selectedNotes]);
+  }, [addNote, removeNote, selectedNotes, effectiveOctave]);
   
   // 从鼠标位置计算角度
   const getAngle = useCallback((clientX: number, clientY: number): number => {
