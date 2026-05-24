@@ -24,6 +24,7 @@ interface MusicStore {
   transposeSteps: number;
   currentOctave: number;
   circleMode: 'chromatic' | 'circleOfFifths' | 'multiOctave';
+  visibleOctaves: Set<number>;
   
   addNote: (note: Note) => void;
   removeNote: (note: Note) => void;
@@ -34,6 +35,8 @@ interface MusicStore {
   setTransposeSteps: (steps: number) => void;
   setCurrentOctave: (octave: number) => void;
   setCircleMode: (mode: 'chromatic' | 'circleOfFifths' | 'multiOctave') => void;
+  toggleOctave: (octave: number) => void;
+  transposeSelectionInOctave: (delta: number) => void;
   transposeSelection: (delta: number) => void;
   
   saveChord: (name: string, chord: Omit<Chord, 'id' | 'name'>) => void;
@@ -55,6 +58,7 @@ export const useMusicStore = create<MusicStore>((set) => ({
   transposeSteps: 0,
   currentOctave: 3,
   circleMode: 'chromatic',
+  visibleOctaves: new Set([1, 2, 3, 4, 5]),
   
   addNote: (note) => {
     set((state) => {
@@ -94,6 +98,27 @@ export const useMusicStore = create<MusicStore>((set) => ({
   }),
   
   setCircleMode: (mode) => set({ circleMode: mode }),
+  
+  toggleOctave: (octave) => set((state) => {
+    const next = new Set(state.visibleOctaves);
+    if (next.has(octave)) {
+      if (next.size <= 1) return state; // 至少保留一个
+      next.delete(octave);
+    } else {
+      next.add(octave);
+    }
+    return { visibleOctaves: next };
+  }),
+  
+  transposeSelectionInOctave: (delta) => set((state) => {
+    const newNotes = state.selectedNotes.map(note => {
+      const origOctave = note.octave;
+      const newMidi = note.midi + delta;
+      const wrappedMidi = origOctave * 12 + ((newMidi % 12) + 12) % 12;
+      return getNoteByMidi(wrappedMidi);
+    });
+    return { selectedNotes: newNotes };
+  }),
   
   saveChord: (name, chord) => set((state) => ({
     savedChords: [...state.savedChords, { ...chord, id: Date.now().toString(), name, savedAt: Date.now() }],
