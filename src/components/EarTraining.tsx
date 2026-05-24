@@ -33,13 +33,9 @@ export function EarTraining() {
     const rootNote = createNote(root, effectiveOctave);
     const chord = generateChord(rootNote, type);
     setQuestion({ root, type, chordNotes: chord.map(n => n.name) });
-    // 稍后播放
-    setTimeout(() => {
-      audioPlayer.playChord(chord.map(n => n.midi), 1.5);
-    }, 300);
   }, [clearNotes, effectiveOctave]);
   
-  // 首次加载出题
+  // 首次加载出题（不自动播放，等用户点「重播」触发 AudioContext）
   useEffect(() => { newQuestion(); }, []);
   
   // 检查答案
