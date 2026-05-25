@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Note, Chord, ChordType, getNoteByMidi } from '../utils/musicTheory';
+import { Note, Chord, ChordType, getNoteByMidi, NOTE_NAMES } from '../utils/musicTheory';
 import { audioPlayer } from '../utils/audioPlayer';
 
 interface SavedChord extends Chord {
@@ -111,10 +111,11 @@ export const useMusicStore = create<MusicStore>((set) => ({
   
   transposeSelectionInOctave: (delta) => set((state) => {
     const newNotes = state.selectedNotes.map(note => {
-      const origOctave = note.octave;
-      const newMidi = note.midi + delta;
-      const wrappedMidi = origOctave * 12 + ((newMidi % 12) + 12) % 12;
-      return getNoteByMidi(wrappedMidi);
+      const noteIndex = NOTE_NAMES.indexOf(note.name);
+      const baseMidi = (note.octave + 1) * 12 + noteIndex;
+      const shifted = baseMidi + delta;
+      const wrappedSemi = ((shifted - baseMidi) % 12 + 12) % 12;
+      return getNoteByMidi(baseMidi + wrappedSemi);
     });
     return { selectedNotes: newNotes };
   }),
