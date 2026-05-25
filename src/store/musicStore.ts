@@ -61,13 +61,12 @@ export const useMusicStore = create<MusicStore>((set) => ({
   visibleOctaves: new Set([1, 2, 3, 4, 5]),
   
   addNote: (note) => {
+    audioPlayer.playNote(note.midi, 0);
     set((state) => {
       const exists = state.selectedNotes.some(n => n.midi === note.midi);
       if (exists) return state;
       const newNotes = [...state.selectedNotes, note];
       newNotes.sort((a, b) => a.midi - b.midi);
-      // 播放全部已选音符（含新加的），实时听到和弦
-      audioPlayer.playChord(newNotes.map(n => n.midi), 1.2);
       return { selectedNotes: newNotes };
     });
   },

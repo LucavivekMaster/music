@@ -25,7 +25,7 @@ export function NoteCircle() {
   const { selectedNotes, addNote, removeNote, transposeSteps, setTransposeSteps,
     transposeSelection, transposeSelectionInOctave, circleMode, setCircleMode,
     currentOctave, visibleOctaves, toggleOctave } = useMusicStore();
-  const [animatingNote, setAnimatingNote] = useState<string | null>(null);
+  const [animatingMidi, setAnimatingMidi] = useState<number | null>(null);
 
   const effectiveOctave = useMemo(() =>
     Math.max(0, Math.min(7, currentOctave + Math.floor(transposeSteps / 12))),
@@ -95,8 +95,8 @@ export function NoteCircle() {
       removeNote(existing);
     } else {
       addNote(createNote(noteName, octave));
-      setAnimatingNote(noteName);
-      setTimeout(() => setAnimatingNote(null), 300);
+      setAnimatingMidi(midi);
+      setTimeout(() => setAnimatingMidi(null), 300);
     }
   }, [addNote, removeNote, selectedNotes]);
 
@@ -234,7 +234,7 @@ export function NoteCircle() {
               <circle cx={p.x} cy={p.y} r={nr + 10} fill="transparent" />
               {!selected && <circle cx={p.x} cy={p.y} r={nr + 4} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1" className="note-hover-ring" />}
               {selected && <circle cx={p.x} cy={p.y} r={nr + 6} fill="none" stroke={p.color} strokeWidth="2" opacity="0.6" filter="url(#strongGlow)" />}
-              {animatingNote === p.noteName && <circle cx={p.x} cy={p.y} r={nr + 10} fill="none" stroke={p.color} strokeWidth="3" opacity="0.8" filter="url(#pulseGlow)" className="note-pulse-ring" />}
+              {animatingMidi === p.midi && <circle cx={p.x} cy={p.y} r={nr + 10} fill="none" stroke={p.color} strokeWidth="3" opacity="0.8" filter="url(#pulseGlow)" className="note-pulse-ring" />}
               <circle cx={p.x} cy={p.y} r={selected ? nr + 2 : nr} fill={selected ? p.color : 'rgba(30,41,59,0.9)'}
                 stroke={selected ? p.color : 'rgba(255,255,255,0.3)'} strokeWidth={selected ? 3 : 1.5}
                 filter={selected ? 'url(#strongGlow)' : 'url(#glow)'} className="pointer-events-none"
