@@ -25,6 +25,7 @@ interface MusicStore {
   currentOctave: number;
   circleMode: 'chromatic' | 'circleOfFifths' | 'multiOctave';
   visibleOctaves: Set<number>;
+  flashMidi: number | null;
   
   addNote: (note: Note) => void;
   removeNote: (note: Note) => void;
@@ -38,6 +39,7 @@ interface MusicStore {
   toggleOctave: (octave: number) => void;
   transposeSelectionInOctave: (delta: number) => void;
   transposeSelection: (delta: number) => void;
+  setFlashMidi: (midi: number | null) => void;
   
   saveChord: (name: string, chord: Omit<Chord, 'id' | 'name'>) => void;
   deleteChord: (id: string) => void;
@@ -59,6 +61,7 @@ export const useMusicStore = create<MusicStore>((set) => ({
   currentOctave: 3,
   circleMode: 'chromatic',
   visibleOctaves: new Set([1, 2, 3, 4, 5]),
+  flashMidi: null,
   
   addNote: (note) => {
     audioPlayer.playNote(note.midi, 0);
@@ -116,6 +119,8 @@ export const useMusicStore = create<MusicStore>((set) => ({
       return createNote(NOTE_NAMES[newIdx], note.octave);
     }),
   })),
+  
+  setFlashMidi: (midi) => set({ flashMidi: midi }),
   
   saveChord: (name, chord) => set((state) => ({
     savedChords: [...state.savedChords, { ...chord, id: Date.now().toString(), name, savedAt: Date.now() }],
