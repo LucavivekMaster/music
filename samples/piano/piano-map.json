@@ -1,30 +1,41 @@
 [
-  {
-    "midi": 48,
-    "file": "MF C3.wav"
-  },
-  {
-    "midi": 50,
-    "file": "MF D3.wav"
-  },
-  {
-    "midi": 52,
-    "file": "MF E3.wav"
-  },
-  {
-    "midi": 53,
-    "file": "MF F3.wav"
-  },
-  {
-    "midi": 55,
-    "file": "MF G3.wav"
-  },
-  {
-    "midi": 57,
-    "file": "MF A3.wav"
-  },
-  {
-    "midi": 59,
-    "file": "MF B3.wav"
-  }
+  { "midi": 21, "file": "Mf A0.wav" },
+  { "midi": 23, "file": "Mf B-1.wav" },
+  { "midi": 26, "file": "MF D1.wav" },
+  { "midi": 28, "file": "MF E1.wav" },
+  { "midi": 29, "file": "MF F1.wav" },
+  { "midi": 31, "file": "MF G1.wav" },
+  { "midi": 33, "file": "Mf F0.wav" },
+  { "midi": 35, "file": "Mf B0.wav" },
+  { "midi": 36, "file": "MF C2.wav" },
+  { "midi": 38, "file": "MF D2.wav" },
+  { "midi": 40, "file": "MF E2.wav" },
+  { "midi": 41, "file": "MF F2.wav" },
+  { "midi": 43, "file": "MF G2.wav" },
+  { "midi": 45, "file": "MF A2.wav" },
+  { "midi": 47, "file": "MF B2.wav" },
+  { "midi": 48, "file": "MF C3.wav" },
+  { "midi": 50, "file": "MF D3.wav" },
+  { "midi": 52, "file": "MF E3.wav" },
+  { "midi": 53, "file": "MF F3.wav" },
+  { "midi": 55, "file": "MF G3.wav" },
+  { "midi": 57, "file": "MF A3.wav" },
+  { "midi": 59, "file": "MF B3.wav" },
+  { "midi": 60, "file": "MF C4.wav" },
+  { "midi": 62, "file": "Mf D4.wav" },
+  { "midi": 64, "file": "Mf E4.wav" },
+  { "midi": 65, "file": "Mf F4.wav" },
+  { "midi": 69, "file": "Mf A4.wav" },
+  { "midi": 71, "file": "Mf B4.wav" },
+  { "midi": 74, "file": "Mf D5.wav" },
+  { "midi": 76, "file": "Mf E5.wav" },
+  { "midi": 77, "file": "Mf F5.wav" },
+  { "midi": 81, "file": "Mf A5.wav" },
+  { "midi": 83, "file": "Mf B5.wav" },
+  { "midi": 84, "file": "Mf C6.wav" },
+  { "midi": 86, "file": "Mf D6.wav" },
+  { "midi": 88, "file": "Mf E6.wav" },
+  { "midi": 89, "file": "Mf F6.wav" },
+  { "midi": 93, "file": "Mf A6.wav" },
+  { "midi": 96, "file": "Mf C7.wav" }
 ]
